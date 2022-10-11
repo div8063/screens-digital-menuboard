@@ -4,7 +4,6 @@
 }
 
 .columns img {
-    width: 100%;
 }
 
 @media (min-width: 900px) {
@@ -16,10 +15,27 @@
 
     .columns > div > div {
         flex: 1;
-        margin-left: 32px;
     }
 
     .columns > div > div:first-of-type {
-        margin-left: unset;
+        width: 60%;
+    }
+
+    .columns > div > div:nth-of-type(2) {
+        flex: 0 0 auto;
+        width: 10%;
+        text-align: center;
+    }
+
+    .columns > div > div:nth-of-type(3) {
+        flex: 0 0 auto;
+        width: 10%;
+        text-align: center;
+    }
+
+    .columns > div > div:nth-of-type(4) {
+        flex: 0 0 auto;
+        width: 10%;
+        text-align: center;
     }
 }
