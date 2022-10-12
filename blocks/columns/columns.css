@@ -4,9 +4,10 @@
 }
 
 .columns img {
+    max-width: 50%;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 700px) {
     .columns > div {
         display: flex;
         align-items: center;
@@ -40,7 +41,7 @@
     }
 }
 
-@media (min-width: 300px) {
+@media (min-width: 300px) and (max-width: 699px) {
     .columns > div {
         display: flex;
         align-items: center;

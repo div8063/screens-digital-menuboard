@@ -253,7 +253,7 @@ main .menu-start-headeing img {
     }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 700px) {
     :root {
         --heading-font-size-xxl: 60px;
         --heading-font-size-xl: 48px;
@@ -264,7 +264,29 @@ main .menu-start-headeing img {
     }
 
     .section > div {
-        max-width: 1200px;
+        width: 95%;
+        margin: auto;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 699px) {
+    :root {
+        /* body sizes */
+        --body-font-size-m: 12px;
+        --body-font-size-s: 10px;
+        --body-font-size-xs: 9px;
+
+        /* heading sizes */
+        --heading-font-size-xxl: 20px;
+        --heading-font-size-xl: 16px;
+        --heading-font-size-l: 12px;
+        --heading-font-size-m: 10px;
+        --heading-font-size-s: 8px;
+        --heading-font-size-xs: 8px;
+    }
+
+    .section > div {
+        width: 95%;
         margin: auto;
     }
 }
@@ -322,8 +344,18 @@ main .cards-container {
     width: 95%;
 }
 
-main .cards-container .cards {
-    --background-color: url(/icons/black-background.jpg) no-repeat center center fixed;
-    font-size: 18px;
-    font-weight: 900;
+@media (min-width: 700px) {
+    main .cards-container .cards {
+        --background-color: url(/icons/black-background.jpg) no-repeat center center fixed;
+        font-size: 18px;
+        font-weight: 900;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 699px) {
+    main .cards-container .cards {
+        --background-color: url(/icons/black-background.jpg) no-repeat center center fixed;
+        font-size: 6px;
+        font-weight: 900;
+    }
 }
