@@ -201,13 +201,13 @@ main input:hover {
 
 main {
     margin: auto;
-    width: 50%;
+    max-width: 750px;
     border: 3px solid rgb(48 48 48);
+    background: url(/icons/black-background.jpg) no-repeat center center fixed;
+    background-size: cover;
 }
 
 main .section {
-    /* padding: 64px 16px; */
-
 }
 
 main pre {
@@ -280,8 +280,7 @@ main .section.highlight {
 }
 
 body {
-    background: url(/icons/black-background.jpg) no-repeat center center fixed;
-    background-size: cover;
+    background: black;
     color: #fff;
 }
 
