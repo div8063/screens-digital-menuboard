@@ -689,6 +689,7 @@ async function loadLazy(doc) {
 
   //loadHeader(doc.querySelector('header'));
   //loadFooter(doc.querySelector('footer'));
+  poll(pollAPI, doc);
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.svg`);
@@ -706,3 +707,98 @@ function loadDelayed() {
   window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
 }
+
+/**
+ * Hardcoding HTML mutation for the demo, ideally vocabulary should be defined to match exact HTML element with the Excel data cell
+ * @param apiResponse
+ * @param doc
+ */
+function personalizedContent(apiResponse, doc) {
+  var targetAPIRespose = JSON.parse(apiResponse);
+  var dataArray = targetAPIRespose.data;
+
+  if (dataArray && dataArray.length > 0) {
+    for (let index = 0; index < dataArray.length; index++) {
+      var currentRowId = parseInt(dataArray[index].ID, 10);
+      var menuSection = dataArray[index].Section;
+      var outOfStock = dataArray[index]['Out Of Stock'];
+      var totalElementsOnMenu = doc.getElementsByClassName("columns " + menuSection)[0].childElementCount;
+
+      if (currentRowId < totalElementsOnMenu) {
+        // Mutate the existing menu item
+        doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[0].textContent = dataArray[index].Item;
+        doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[1].textContent = dataArray[index].Tall;
+        doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[2].textContent = dataArray[index].Grande;
+        doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[3].textContent = dataArray[index].Venti;
+
+        if (outOfStock === 'Yes') {
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[0].style.textDecoration = "line-through";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[0].style.color = 'red';
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[1].style.textDecoration = "line-through";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[1].style.color = 'red';
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[2].style.textDecoration = "line-through";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[2].style.color = 'red';
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[3].style.textDecoration = "line-through";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[3].style.color = 'red';
+
+        }
+      } else if (currentRowId >= totalElementsOnMenu) {
+
+        // Add the new menu item
+        const parentDiv = document.createElement("div");
+
+        const itemDiv = document.createElement("div");
+        itemDiv.textContent = dataArray[index].Item;
+        parentDiv.appendChild(itemDiv);
+
+        const tallDiv = document.createElement("div");
+        tallDiv.textContent = dataArray[index].Tall;
+        parentDiv.appendChild(tallDiv);
+
+        const grandeDiv = document.createElement("div");
+        grandeDiv.textContent = dataArray[index].Grande;
+        parentDiv.appendChild(grandeDiv);
+
+        const ventiDiv = document.createElement("div");
+        ventiDiv.textContent = dataArray[index].Venti;
+        parentDiv.appendChild(ventiDiv);
+
+        doc.getElementsByClassName("columns " + menuSection)[0].appendChild(parentDiv);
+      }
+    }
+  }
+}
+
+async function pollAPI(url, doc, interval) {
+  try {
+    let response = await fetch(url);
+
+    if (response.status === 200) {
+      // Got message
+      let apiResponse = await response.text();
+      console.log(" API response recived: " + JSON.stringify(apiResponse));
+      //personalized
+      personalizedContent(apiResponse, doc);
+    }
+  } finally {
+    setTimeout(function() {
+      pollAPI(url, doc, interval);
+    }, interval);
+  }
+}
+
+const poll = ( fn, doc ) => {
+  const targetApi = localStorage.getItem('franklinTargetAPI');
+  if (!targetApi) {
+    return;
+  }
+
+  let interval = localStorage.getItem('franklinTargetAPIPollInterval');
+  if (!interval) {
+    interval = 1000;
+  }
+  console.log('Start poll...');
+  setTimeout(function() {
+    fn(targetApi, doc, interval);
+  }, interval);
+};
