@@ -740,8 +740,19 @@ function personalizedContent(apiResponse, doc) {
           doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[2].style.color = 'red';
           doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[3].style.textDecoration = "line-through";
           doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[3].style.color = 'red';
-
         }
+
+        if (outOfStock !== 'Yes') {
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[0].style.textDecoration = "";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[0].style.color = "";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[1].style.textDecoration = "";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[1].style.color = "";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[2].style.textDecoration = "";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[2].style.color = "";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[3].style.textDecoration = "";
+          doc.getElementsByClassName("columns " + menuSection)[0].children[currentRowId].children[3].style.color = "";
+        }
+
       } else if (currentRowId >= totalElementsOnMenu) {
 
         // Add the new menu item
