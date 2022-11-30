@@ -346,6 +346,7 @@ main .cards-container {
 
 @media (min-width: 700px) {
     main .cards-container .cards {
+        display: inline-flex;
         --background-color: url(/icons/black-background.jpg) no-repeat center center fixed;
         font-size: 18px;
         font-weight: 900;
@@ -354,8 +355,66 @@ main .cards-container {
 
 @media (min-width: 300px) and (max-width: 699px) {
     main .cards-container .cards {
+        display: inline-flex;
         --background-color: url(/icons/black-background.jpg) no-repeat center center fixed;
         font-size: 6px;
         font-weight: 900;
     }
+}
+
+/*food menu specific styling*/
+main:has(.food-menu-section) {
+    color: black;
+    background: #F5F2EA;
+}
+
+main:has(.food-menu-section) .section{
+    margin: 1rem 0.5rem 0.5rem 0.5rem;
+}
+
+.promo > ul > li {
+    border: unset !important;
+}
+
+main .section.food-menu-start-heading{
+    max-width: 90%;
+    padding-left: 2%;
+    margin-left: 35px;
+}
+
+main .cards-container:has(.promo) {
+    display: flex;
+    text-align: center;
+    font-family: SoDoSans;
+}
+
+main .food-menu-section.columns > div > div:first-of-type {
+    font-family: SoDoSans;
+}
+
+main .food-menu-section.columns > div:first-of-type {
+    font-size: var(--heading-font-size-xs);
+    font-weight: bold;
+    font-style: italic;
+    margin-left: 25px;
+}
+
+main .food-menu-section {
+    margin: auto auto 0rem auto;
+    width: 95%;
+    font-size: var(--body-font-size-s);
+}
+
+main .food-menu-start {
+    display: flex;
+    text-align: center;
+}
+
+main .section.legend {
+    margin: 40px auto 20px auto;
+    width: 50%;
+    text-align: center;
+    border-top: black;
+    border-top-width: 1px;
+    border-top-style: solid;
 }
