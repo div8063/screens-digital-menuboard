@@ -781,28 +781,27 @@ function personalizedContent(apiResponse, doc) {
 }
 
 function applyPromo(response, doc) {
-  if(response.promo && response.promo.data){
-    let isDisplayPromo = response.promo.data[0].isDisplayPromo;
-    if (isDisplayPromo=='true') {
-      document.getElementsByClassName("promo")[0].children[0].children[0].style.display = "block";
-
-    }else {
-      document.getElementsByClassName("promo")[0].children[0].children[0].style.display = "none";
-    }
-  }
-
-  // weather based drink
-  if(response.weather && response.weather.data){
-    let temperature = response.weather.data[0].temperature;
-    if (temperature <= 40) {
-      document.getElementsByClassName("promo")[0].children[0].children[1].style.display = "block";
-      document.getElementsByClassName("promo")[0].children[0].children[2].style.display = "none";
-    } else if (temperature >= 90) {
-      document.getElementsByClassName("promo")[0].children[0].children[1].style.display = "none";
-      document.getElementsByClassName("promo")[0].children[0].children[2].style.display = "block";
-    } else if (temperature > 40 && temperature < 90) {
-      document.getElementsByClassName("promo")[0].children[0].children[1].style.display = "none";
-      document.getElementsByClassName("promo")[0].children[0].children[2].style.display = "none";
+  if (response.promo && response.weather) {
+    let isDisplayPromo = response.promo?.data[0]?.isDisplayPromo;
+    if (isDisplayPromo === 'true') {
+      // hide qr-code
+      doc.getElementsByClassName('qr-code')[0].style.display = 'none';
+      // weather based drink
+      let temperature = response.weather?.data[0]?.temperature;
+      if (temperature < 50) {
+        // display hot beverage
+        doc.getElementsByClassName("promo")[0].children[0].children[0].style.display = "block";
+        doc.getElementsByClassName("promo")[0].children[0].children[1].style.display = "none";
+      } else {
+        // display cold beverage
+        doc.getElementsByClassName("promo")[0].children[0].children[0].style.display = "none";
+        doc.getElementsByClassName("promo")[0].children[0].children[1].style.display = "block";
+      }
+    } else {
+        // display qr-code
+      doc.getElementsByClassName("promo")[0].children[0].children[0].style.display = "none";
+      doc.getElementsByClassName("promo")[0].children[0].children[1].style.display = "none";
+      doc.getElementsByClassName('qr-code')[0].style.display = 'block';
     }
   }
 }
