@@ -689,7 +689,8 @@ async function loadLazy(doc) {
 
   //loadHeader(doc.querySelector('header'));
   //loadFooter(doc.querySelector('footer'));
-  poll(pollAPI, doc);
+  poll(personalizedContent, doc, 'franklinTargetAPI');
+  poll(applyPromo, doc, 'franklinPromoAPI');
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.svg`);
@@ -714,8 +715,7 @@ function loadDelayed() {
  * @param doc
  */
 function personalizedContent(apiResponse, doc) {
-  var targetAPIRespose = JSON.parse(apiResponse);
-  var dataArray = targetAPIRespose.data;
+  let dataArray = apiResponse.data;
 
   if (dataArray && dataArray.length > 0) {
     for (let index = 0; index < dataArray.length; index++) {
@@ -780,36 +780,61 @@ function personalizedContent(apiResponse, doc) {
   }
 }
 
-async function pollAPI(url, doc, interval) {
+function applyPromo(response, doc) {
+  if(response.promo && response.promo.data){
+    let isDisplayPromo = response.promo.data[0].isDisplayPromo;
+    if (isDisplayPromo=='true') {
+      document.getElementsByClassName("promo")[0].children[0].children[0].style.display = "block";
+
+    }else {
+      document.getElementsByClassName("promo")[0].children[0].children[0].style.display = "none";
+    }
+  }
+
+  // weather based drink
+  if(response.weather && response.weather.data){
+    let temperature = response.weather.data[0].temperature;
+    if (temperature <= 40) {
+      document.getElementsByClassName("promo")[0].children[0].children[1].style.display = "block";
+      document.getElementsByClassName("promo")[0].children[0].children[2].style.display = "none";
+    } else if (temperature >= 90) {
+      document.getElementsByClassName("promo")[0].children[0].children[1].style.display = "none";
+      document.getElementsByClassName("promo")[0].children[0].children[2].style.display = "block";
+    } else if (temperature > 40 && temperature < 90) {
+      document.getElementsByClassName("promo")[0].children[0].children[1].style.display = "none";
+      document.getElementsByClassName("promo")[0].children[0].children[2].style.display = "none";
+    }
+  }
+}
+
+async function pollAPI(fn, url, doc, interval) {
   try {
     let response = await fetch(url);
 
     if (response.status === 200) {
-      // Got message
-      let apiResponse = await response.text();
-      console.log(" API response recived: " + JSON.stringify(apiResponse));
-      //personalized
-      personalizedContent(apiResponse, doc);
+      let apiResponse = await response.json();
+      console.log(" API response received: " + JSON.stringify(apiResponse));
+      fn(apiResponse, doc);
     }
   } finally {
     setTimeout(function() {
-      pollAPI(url, doc, interval);
+      pollAPI(fn, url, doc, interval);
     }, interval);
   }
 }
 
-const poll = ( fn, doc ) => {
-  const targetApi = localStorage.getItem('franklinTargetAPI');
+const poll = ( fn, doc, url ) => {
+  const targetApi = localStorage.getItem(url);
   if (!targetApi) {
     return;
   }
 
-  let interval = localStorage.getItem('franklinTargetAPIPollInterval');
+  let interval = localStorage.getItem('franklinPollInterval');
   if (!interval) {
     interval = 1000;
   }
   console.log('Start poll...');
   setTimeout(function() {
-    fn(targetApi, doc, interval);
+    pollAPI(fn, targetApi, doc, interval);
   }, interval);
 };
