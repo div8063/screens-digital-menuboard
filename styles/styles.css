@@ -372,8 +372,9 @@ main:has(.food-menu-section) .section{
     margin: 1rem 0.5rem 0.5rem 0.5rem;
 }
 
-.promo > ul > li {
+div.promo > ul > li {
     border: unset !important;
+    display: none;
 }
 
 main .section.food-menu-start-heading{
