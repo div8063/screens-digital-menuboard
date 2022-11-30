@@ -377,6 +377,11 @@ div.promo > ul > li {
     display: none;
 }
 
+div.qr-code > ul > li {
+    border: unset !important;
+    display: block;
+}
+
 main .section.food-menu-start-heading{
     max-width: 90%;
     padding-left: 2%;
@@ -388,7 +393,11 @@ main .cards-container:has(.promo) {
     text-align: center;
     font-family: SoDoSans;
 }
-
+main .cards-container:has(.qr-code) {
+    display: flex;
+    text-align: center;
+    font-family: SoDoSans;
+}
 main .food-menu-section.columns > div > div:first-of-type {
     font-family: SoDoSans;
 }
