@@ -1,9 +1,13 @@
 # Your Project's Title...
-Your project's description...
+Digital Sigange Menu (Starbucks Drink & Dinner Menus)
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.hlx.page/
-- Live: https://main--{repo}--{owner}.hlx.live/
+Drink Menu
+- Preview: https://main--we-cafe--ashroti.hlx.page/
+- Live: https://main--we-cafe--ashroti.hlx.live/
+Food Menu
+- Preview: https://main--we-cafe--ashroti.hlx.page/foodmenu
+- Live: https://main--we-cafe--ashroti.hlx.live/foodmenu
 
 ## Installation
 
